@@ -50,11 +50,11 @@ async function init() {
                 url.searchParams.delete('token');
                 window.history.replaceState({}, '', url);
             } else {
-                alert('The token has expired or is invalid. Please try to request a new link.');
+                alert((typeof t === 'function') ? t('dialog.token_expired') : 'The token has expired or is invalid. Please try to request a new link.');
                 logError('Token exchange failed:', response.status);
             }
         } catch (error) {
-            alert('The token has expired or is invalid. Please try to request a new link.');
+            alert((typeof t === 'function') ? t('dialog.token_expired') : 'The token has expired or is invalid. Please try to request a new link.');
             logError('Error exchanging token:', error);
         }
     }
@@ -86,7 +86,7 @@ async function init() {
             document.getElementById('open-folder').style.display = 'flex';
             // TODO maybe ask user to check "Allow on every visit" on left part of the sidebar
             await removeSavedRootDirHandle();
-            alert('Can\'t access folder.\n\nPlease, reopen the folder again and check "Allow on every visit" checkbox');
+            alert((typeof t === 'function') ? t('dialog.cant_access_folder') : 'Can\'t access folder.\n\nPlease, reopen the folder again and check "Allow on every visit" checkbox');
         }
     }
 
@@ -232,14 +232,15 @@ async function newFile(parentDir) {
 }
 
 async function newFolder() {
-    let folderName = prompt('Enter folder name:', 'New Folder');
+    let folderPrompt = (typeof t === 'function') ? t('dialog.enter_folder_name') : 'Enter folder name:';
+    let folderName = prompt(folderPrompt, 'New Folder');
     if (folderName === null) {
         return;
     }
 
     folderName = folderName.trim();
     if (!folderName) {
-        alert('Folder name cannot be empty');
+        alert((typeof t === 'function') ? t('dialog.folder_name_empty') : 'Folder name cannot be empty');
         return;
     }
 
@@ -285,7 +286,7 @@ async function openDir() {
         // User pressed Esc (AbortError) or the browser doesn't support
         // the picker (TypeError).
         if (error instanceof TypeError) {
-            alert('For now only Chrome browser supports local folders :(');
+            alert((typeof t === 'function') ? t('dialog.chrome_only') : 'For now only Chrome browser supports local folders :(');
         }
         return;
     }

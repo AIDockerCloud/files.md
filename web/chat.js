@@ -45,7 +45,7 @@ async function sendToChat() {
 
     // jj/жж: journal only. jd/жд: journal and keep in chat.
     const lower = text.toLowerCase();
-    const toJournalOnly = lower.endsWith(' jj') || lower.endsWith(' жж');
+    const toJournalOnly = lower.endsWith(' jj') || lower.endsWith(' жж') || lower.endsWith(' 日记');
     const toJournalAndChat = lower.endsWith(' jd') || lower.endsWith(' жд');
 
     if (toJournalOnly || toJournalAndChat) {
@@ -110,7 +110,8 @@ async function toggleMicRecording() {
         stream = await navigator.mediaDevices.getUserMedia({audio: true});
     } catch (err) {
         logError('Microphone access denied:', err);
-        alert('Microphone access denied or unavailable: ' + err.message);
+        const micErr = (typeof t === 'function') ? t('dialog.mic_denied') : 'Microphone access denied or unavailable: ';
+        alert(micErr + err.message);
         return;
     }
 
@@ -158,7 +159,7 @@ async function toggleMicRecording() {
             const fileHandle = await writeMediaFile(fileName, blob);
             if (!fileHandle) {
                 logError('Failed to save voice message.');
-                alert('Failed to save voice message.');
+                alert((typeof t === 'function') ? t('dialog.voice_save_failed') : 'Failed to save voice message.');
                 return;
             }
             if (!files['media/']) files['media/'] = {};
@@ -182,7 +183,8 @@ async function toggleMicRecording() {
             scrollToBottom();
         } catch (err) {
             logError('Error saving voice message:', err);
-            alert('Error saving voice message: ' + err.message);
+            const saveErr = (typeof t === 'function') ? t('dialog.voice_save_err') : 'Error saving voice message: ';
+            alert(saveErr + err.message);
         }
     };
 
@@ -997,29 +999,43 @@ async function renderMessages() {
     log(`Loaded ${messages.length} messages from ${CHAT_PATH}`);
 
     if (messages.length === 0) {
+        const emptyTitle = (typeof t === 'function') ? t('chat.empty_title') : 'Free your mind';
         chat.innerHTML = `
             <div class="empty-state">
                 <img class="empty-icon" src="img/icon.png" alt="">
-                <div class="empty-title">Free your mind</div>
+                <div class="empty-title">${emptyTitle}</div>
             </div>
         `;
         return;
     }
 
     const recentFiles = getRecentlyModifiedFiles(RECENT_FILES);
-    const recentFilesButtons = recentFiles.map(filename => `
+    const recentFilesButtons = recentFiles.map(filename => {
+        const rawName = filename.replace(/\.md$/, '');
+        const label = (typeof t === 'function') ? t('chat.to_recent', {filename: rawName}) : `To ${rawName}`;
+        return `
     <div class="btn-wrapper">
        <button class="action-btn to-recent-btn" data-filename="${filename}">
-           → ${filename.replace(/\.md$/, '').slice(0, 10)}${filename.replace(/\.md$/, '').length > 10 ? '…' : ''}
+           → ${rawName.slice(0, 10)}${rawName.length > 10 ? '…' : ''}
        </button>
-       <span class="btn-label">To ${filename.replace(/\.md$/, '')}</span>
+       <span class="btn-label">${label}</span>
     </div>
-    `).join('');
+    `;
+    }).join('');
+
+    const markDoneText = (typeof t === 'function') ? t('chat.mark_done') : 'Mark as done';
+    const toFileText = (typeof t === 'function') ? t('chat.to_file') : 'To File';
+    const toJournalText = (typeof t === 'function') ? t('chat.to_journal') : 'To Journal';
+    const toLaterText = (typeof t === 'function') ? t('chat.to_later') : 'To Later';
+    const toReadText = (typeof t === 'function') ? t('chat.to_read') : 'To Read';
+    const toShopText = (typeof t === 'function') ? t('chat.to_shop') : 'To Shop';
+    const toWatchText = (typeof t === 'function') ? t('chat.to_watch') : 'To Watch';
+    const toArchiveText = (typeof t === 'function') ? t('chat.to_archive') : 'To Archive';
 
     // add own class every other message
     chat.innerHTML = messages.map((message, i) => `
         <div class="message ${i % 2 === 1 ? 'own' : ''}${message.done ? ' completed' : ''}" data-text="${escapeHtml(message.text)}" data-timestamp="${message.timestamp}">
-            <button class="complete-btn" title="Mark as done">
+            <button class="complete-btn" title="${markDoneText}">
                 <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.5 17l6 6 13-13"/>
                 </svg>
@@ -1038,7 +1054,7 @@ async function renderMessages() {
                                 <path d="M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H12M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19M19 9V12M17 19H21M19 17V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                             </svg>
                         </button>
-                    <span class="btn-label">To File</span>
+                    <span class="btn-label">${toFileText}</span>
                     </div>
                     
                     <div class="btn-wrapper">
@@ -1053,7 +1069,7 @@ async function renderMessages() {
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                             </svg>
                         </button>
-                        <span class="btn-label">To Journal</span>
+                        <span class="btn-label">${toJournalText}</span>
                     </div>
  
                     <div class="btn-wrapper">
@@ -1063,7 +1079,7 @@ async function renderMessages() {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8l4 4"/>
                             </svg>
                         </button>
-                        <span class="btn-label">To Later</span>
+                        <span class="btn-label">${toLaterText}</span>
                     </div>
 
                     <div class="btn-wrapper">
@@ -1073,7 +1089,7 @@ async function renderMessages() {
                                 <path d="M4 19V6.2C4 5.0799 4 4.51984 4.21799 4.09202C4.40973 3.71569 4.71569 3.40973 5.09202 3.21799C5.51984 3 6.0799 3 7.2 3H16.8C17.9201 3 18.4802 3 18.908 3.21799C19.2843 3.40973 19.5903 3.71569 19.782 4.09202C20 4.51984 20 5.0799 20 6.2V17H6C4.89543 17 4 17.8954 4 19ZM4 19C4 20.1046 4.89543 21 6 21H20M9 7H15M9 11H15M19 17V21"  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                             </svg>
                         </button>
-                        <span class="btn-label">To Read</span>
+                        <span class="btn-label">${toReadText}</span>
                     </div>
                     
                     <div class="btn-wrapper">
@@ -1083,7 +1099,7 @@ async function renderMessages() {
                                 <path clip-rule="evenodd" d="M2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3H3.21922L6.78345 17.2569C5.73276 17.7236 5 18.7762 5 20C5 21.6569 6.34315 23 8 23C9.65685 23 11 21.6569 11 20C11 19.6494 10.9398 19.3128 10.8293 19H15.1707C15.0602 19.3128 15 19.6494 15 20C15 21.6569 16.3431 23 18 23C19.6569 23 21 21.6569 21 20C21 18.3431 19.6569 17 18 17H8.78078L8.28078 15H18C20.0642 15 21.3019 13.6959 21.9887 12.2559C22.6599 10.8487 22.8935 9.16692 22.975 7.94368C23.0884 6.24014 21.6803 5 20.1211 5H5.78078L5.15951 2.51493C4.93692 1.62459 4.13696 1 3.21922 1H2ZM18 13H7.78078L6.28078 7H20.1211C20.6742 7 21.0063 7.40675 20.9794 7.81078C20.9034 8.9522 20.6906 10.3318 20.1836 11.3949C19.6922 12.4251 19.0201 13 18 13ZM18 20.9938C17.4511 20.9938 17.0062 20.5489 17.0062 20C17.0062 19.4511 17.4511 19.0062 18 19.0062C18.5489 19.0062 18.9938 19.4511 18.9938 20C18.9938 20.5489 18.5489 20.9938 18 20.9938ZM7.00617 20C7.00617 20.5489 7.45112 20.9938 8 20.9938C8.54888 20.9938 8.99383 20.5489 8.99383 20C8.99383 19.4511 8.54888 19.0062 8 19.0062C7.45112 19.0062 7.00617 19.4511 7.00617 20Z" stroke="none"/>
                             </svg>
                         </button>
-                    <span class="btn-label">To Shop</span>
+                    <span class="btn-label">${toShopText}</span>
                     </div>
                     
                     <div class="btn-wrapper">
@@ -1091,7 +1107,7 @@ async function renderMessages() {
                         <?xml version="1.0" encoding="utf-8"?>
                         <svg fill="var(--col-link)" stroke="none" width="32px" height="32px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18,6H14.41l2.3-2.29a1,1,0,1,0-1.42-1.42L12,5.54l-1.17-2a1,1,0,1,0-1.74,1L10,6H6A3,3,0,0,0,3,9v8a3,3,0,0,0,3,3v1a1,1,0,0,0,2,0V20h8v1a1,1,0,0,0,2,0V20a3,3,0,0,0,3-3V9A3,3,0,0,0,18,6Zm1,11a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V9A1,1,0,0,1,6,8H18a1,1,0,0,1,1,1Z" stroke="none"/></svg>
                     </button>                    
-                        <span class="btn-label">To Watch</span>
+                        <span class="btn-label">${toWatchText}</span>
                     </div>
                    
                     <div class="btn-wrapper">
@@ -1103,7 +1119,7 @@ async function renderMessages() {
                                 <path d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6" stroke-width="1.5" fill="none"/>
                             </svg>
                         </button>
-                        <span class="btn-label">To Archive</span>
+                        <span class="btn-label">${toArchiveText}</span>
                     </div>
                 </div>
             </div>

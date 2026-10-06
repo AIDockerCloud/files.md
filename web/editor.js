@@ -301,11 +301,12 @@ function initEditor(el) {
                         log(`Media saved as: ${fileName}`);
                     } else {
                         logError('Failed to save the media.');
-                        alert('Failed to save the file. Please try again.');
+                        alert((typeof t === 'function') ? t('dialog.save_file_failed') : 'Failed to save the file. Please try again.');
                     }
                 } catch (error) {
                     logError('Error saving media:', error);
-                    alert('Error saving file: ' + error.message);
+                    const errMsg = (typeof t === 'function') ? t('dialog.save_file_err') : 'Error saving file: ';
+                    alert(errMsg + error.message);
                 }
             }
         }

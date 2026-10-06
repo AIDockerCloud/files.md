@@ -1106,17 +1106,19 @@ function TreeView(root, container, options) {
                 name = trimFirstEmoji(name);
             } else if (node.toString() === 'chat') {
                 ret += '<span class="tree-mod_icon" style="padding-right: 2px">' + TreeConfig.chat_icon + '</span>';
-                name = 'chat';
+                name = (typeof t === 'function') ? t('node.chat') : 'chat';
             } else if (icon != "") {
                 ret += '<span class="tree-mod_icon">' + icon + '</span>';
             } else if ((icon = TreeUtil.getProperty(options, "leaf_icon", "")) != "") {
                 ret += '<span class="tree-icon">' + icon + '</span>';
-            } else if (node.toString() === 'today') {
+            } else if (node.toString() === 'today' || node.toString() === 'later') {
                 ret += '<span class="tree-mod_icon">' + TreeConfig.later_icon + '</span>';
-            } else if (node.toString() === 'later') {
-                ret += '<span class="tree-mod_icon">' + TreeConfig.later_icon + '</span>';
+                name = (typeof t === 'function') ? t('node.later') : node.toString();
             } else if (node.toString().endsWith('_') || node.toString() === 'read' || node.toString() === 'watch' || node.toString() === 'shop') {
                 ret += '<span class="tree-mod_icon">' + TreeConfig.checklists_icon + '</span>';
+                if (['read', 'watch', 'shop'].includes(node.toString())) {
+                    name = (typeof t === 'function') ? t('node.' + node.toString()) : node.toString();
+                }
             } else {
                 ret += '<span class="tree-icon">' + TreeConfig.leaf_icon + '</span>';
             }
@@ -1155,7 +1157,12 @@ function TreeView(root, container, options) {
                 ret += '<span class="tree-icon">' + TreeConfig.parent_icon + '</span>';
             }
 
-            span_desc.innerHTML = ret + node.toString() + '</span>';
+            let dirDisplayName = node.toString();
+            if (typeof t === 'function' && ['journal', 'habits', 'insights', 'archive'].includes(node.toString())) {
+                dirDisplayName = t('node.' + node.toString());
+            }
+
+            span_desc.innerHTML = ret + dirDisplayName + '</span>';
 
             li_outer.appendChild(span_desc);
 
@@ -1423,24 +1430,28 @@ async function folderContextMenu(e, node) {
 // addNewFileItem/addNewDirItem add the "New file"/"New dir" rows that create
 // under parentDir. parentDir is '/' for root or '/some/dir' for a sub-path.
 function addNewFileItem(item, parentDir) {
-    item('New file', async () => {
+    const label = (typeof t === 'function') ? t('menu.new_file') : 'New file';
+    item(label, async () => {
         try {
             await newFile(parentDir);
         } catch (err) {
             logError('new file failed', err);
-            alert('Create file failed: ' + (err && err.message ? err.message : err));
+            const msg = (typeof t === 'function') ? t('dialog.create_file_failed') : 'Create file failed: ';
+            alert(msg + (err && err.message ? err.message : err));
         }
     });
 }
 
 function addNewDirItem(item, parentDir) {
-    item('New dir', async () => {
-        const name = prompt('New directory name:');
+    const label = (typeof t === 'function') ? t('menu.new_dir') : 'New dir';
+    item(label, async () => {
+        const promptMsg = (typeof t === 'function') ? t('dialog.new_dir_name') : 'New directory name:';
+        const name = prompt(promptMsg);
         if (name === null) return;
         const trimmed = name.trim().replace(/^\/+|\/+$/g, '');
         if (!trimmed) return;
         if (trimmed.includes('/')) {
-            alert('Folder name cannot contain "/"');
+            alert((typeof t === 'function') ? t('dialog.folder_slash_err') : 'Folder name cannot contain "/"');
             return;
         }
         const newDirPath = (parentDir === '/' ? '' : parentDir) + '/' + trimmed;
@@ -1449,7 +1460,8 @@ function addNewDirItem(item, parentDir) {
             await renderSidebar();
         } catch (err) {
             logError('new dir failed', err);
-            alert('Create dir failed: ' + (err && err.message ? err.message : err));
+            const msg = (typeof t === 'function') ? t('dialog.create_dir_failed') : 'Create dir failed: ';
+            alert(msg + (err && err.message ? err.message : err));
         }
     });
 }
@@ -1477,17 +1489,20 @@ function buildFolderMenu(item, dirPath) {
     addNewFileItem(item, dirPath);
     addNewDirItem(item, dirPath);
 
-    item('Rename', async () => {
+    const renameLabel = (typeof t === 'function') ? t('menu.rename') : 'Rename';
+    item(renameLabel, async () => {
         let attempt = dirName;
         let trimmed;
         while (true) {
-            const newName = prompt('Rename folder:', attempt);
+            const promptMsg = (typeof t === 'function') ? t('dialog.rename_folder') : 'Rename folder:';
+            const newName = prompt(promptMsg, attempt);
             if (newName === null) return;
             trimmed = newName.trim();
             if (!trimmed || trimmed === dirName) return;
             const badDirChar = findForbiddenChar(trimmed);
             if (badDirChar === null) break;
-            alert(`Folder name cannot contain "${badDirChar}"`);
+            const errMsg = (typeof t === 'function') ? t('dialog.folder_char_err', {char: badDirChar}) : `Folder name cannot contain "${badDirChar}"`;
+            alert(errMsg);
             attempt = trimmed;
         }
         try {
@@ -1502,12 +1517,15 @@ function buildFolderMenu(item, dirPath) {
             await renderSidebar();
         } catch (err) {
             logError('renameDir failed', err);
-            alert('Rename failed: ' + (err && err.message ? err.message : err));
+            const msg = (typeof t === 'function') ? t('dialog.rename_failed') : 'Rename failed: ';
+            alert(msg + (err && err.message ? err.message : err));
         }
     });
 
-    item('Delete', async () => {
-        if (!confirm(`Delete folder "${dirName}" and everything inside it?`)) return;
+    const deleteLabel = (typeof t === 'function') ? t('menu.delete') : 'Delete';
+    item(deleteLabel, async () => {
+        const confirmMsg = (typeof t === 'function') ? t('dialog.delete_dir_confirm', {name: dirName}) : `Delete folder "${dirName}" and everything inside it?`;
+        if (!confirm(confirmMsg)) return;
         try {
             const editorWasInside = pathIsInsideDir(currentEditor.path);
             await removeDir(dirPath);
@@ -1520,7 +1538,8 @@ function buildFolderMenu(item, dirPath) {
             }
         } catch (err) {
             logError('removeDir failed', err);
-            alert('Delete failed: ' + (err && err.message ? err.message : err));
+            const msg = (typeof t === 'function') ? t('dialog.delete_failed') : 'Delete failed: ';
+            alert(msg + (err && err.message ? err.message : err));
         }
     });
 }
@@ -1538,18 +1557,21 @@ function buildFileMenu(item, filePath) {
     addNewDirItem(item, parentDir);
 
     if (!isSystemChecklist(filePath)) {
-        item('Rename', async () => {
+        const renameLabel = (typeof t === 'function') ? t('menu.rename') : 'Rename';
+        item(renameLabel, async () => {
             const displayName = fileName.endsWith('.md') ? fileName.slice(0, -3) : fileName;
             let attempt = displayName;
             let trimmed;
             while (true) {
-                const newName = prompt('Rename file:', attempt);
+                const promptMsg = (typeof t === 'function') ? t('dialog.rename_file') : 'Rename file:';
+                const newName = prompt(promptMsg, attempt);
                 if (newName === null) return;
                 trimmed = newName.trim();
                 if (!trimmed) return;
                 const badFileChar = findForbiddenChar(trimmed);
                 if (badFileChar === null) break;
-                alert(`File name cannot contain "${badFileChar}"`);
+                const errMsg = (typeof t === 'function') ? t('dialog.file_char_err', {char: badFileChar}) : `File name cannot contain "${badFileChar}"`;
+                alert(errMsg);
                 attempt = trimmed;
             }
             const finalName = fileName.endsWith('.md') && !trimmed.endsWith('.md') ? trimmed + '.md' : trimmed;
@@ -1576,23 +1598,27 @@ function buildFileMenu(item, filePath) {
                 await renderSidebar();
             } catch (err) {
                 logError('rename failed', err);
-                alert('Rename failed: ' + (err && err.message ? err.message : err));
+                const msg = (typeof t === 'function') ? t('dialog.rename_failed') : 'Rename failed: ';
+                alert(msg + (err && err.message ? err.message : err));
             }
         });
     }
 
-    item('Move', async () => {
+    const moveLabel = (typeof t === 'function') ? t('menu.move') : 'Move';
+    item(moveLabel, async () => {
         try {
             if (!isCurrent) await openFile(filePath);
             document.getElementById('move-input').value = '';
             moveModal.open();
         } catch (err) {
             logError('move failed', err);
-            alert('Move failed: ' + (err && err.message ? err.message : err));
+            const msg = (typeof t === 'function') ? t('dialog.move_failed') : 'Move failed: ';
+            alert(msg + (err && err.message ? err.message : err));
         }
     });
 
-    item('Delete', async () => {
+    const deleteLabel = (typeof t === 'function') ? t('menu.delete') : 'Delete';
+    item(deleteLabel, async () => {
         try {
             if (isCurrent && typeof removeCurrentFile === 'function') {
                 await removeCurrentFile();
@@ -1602,7 +1628,8 @@ function buildFileMenu(item, filePath) {
             }
         } catch (err) {
             logError('delete failed', err);
-            alert('Delete failed: ' + (err && err.message ? err.message : err));
+            const msg = (typeof t === 'function') ? t('dialog.delete_failed') : 'Delete failed: ';
+            alert(msg + (err && err.message ? err.message : err));
         }
     });
 }

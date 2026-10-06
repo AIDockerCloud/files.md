@@ -633,6 +633,32 @@ button svg circle {
     color: var(--color-neo-orange);
 }
 
+#lang-toggle {
+    position: relative;
+}
+#lang-toggle svg {
+    color: var(--col-tx-alt);
+    stroke: var(--col-link);
+}
+#lang-toggle:hover svg {
+    stroke: var(--col-tx) !important;
+}
+.lang-badge {
+    position: absolute;
+    bottom: -3px;
+    right: -3px;
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1;
+    padding: 1px 2px;
+    border-radius: 2px;
+    background: var(--col-accent);
+    color: var(--col-bg);
+    pointer-events: none;
+    letter-spacing: -0.5px;
+}
+
+
 /* Fast custom tooltip below toolbar buttons + close-sidebar. The native
    `title=` delay is ~1.5 s in Chrome, way too slow for high-frequency
    icons. We pull the label out via attr(title) and reveal at 250 ms. */

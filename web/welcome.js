@@ -262,7 +262,7 @@ function prefetchWelcomeImages() {
     }
 }
 
-const WELCOME_FILES = {
+const WELCOME_FILES_EN = {
     "brain/": {
         "We think that we understand, but in reality we just know.md": {
             "content": "Reading and rereading can easily fool us into believing that we understand a text. Rereading is especially dangerous because of the mere-exposure effect: The moment we become familiar with something, we start believing we also understand it. On top of that, we also tend to like it it more.\n\n[Brain is the most complex object in known universe](/brain/Brain%20is%20the%20most%20complex%20object%20in%20known%20universe.md)\n[Zettelkasten](/brain/Zettelkasten.md)",
@@ -408,7 +408,173 @@ const WELCOME_FILES = {
             "[Links](/Links.md)",
         isFile: true,
     },
+};
+
+const WELCOME_FILES_ZH = {
+    "brain/": {
+        "We think that we understand, but in reality we just know.md": {
+            "content": "反复重读容易让我们误以为自己真正理解了文本。由于单纯曝光效应（mere-exposure effect），重读尤为危险：一旦我们对某种事物熟悉起来，就会开始相信自己也理解了它；更甚者，我们还会更加偏爱它。\n\n[人脑是已知宇宙中最复杂的物体](/brain/Brain%20is%20the%20most%20complex%20object%20in%20known%20universe.md)\n[卡片盒笔记法](/brain/Zettelkasten.md)",
+            isFile: true,
+        },
+        "Brain is the most complex object in known universe.md": {
+            "content": "没有什么比尝试创造一个像人类一样聪明的计算机更能让人感叹人类智慧的非凡。建造摩天大楼、送人类进入太空、探究宇宙大爆炸的细节——所有这些，都比理解我们自己的大脑或制造出与其媲美的机器容易得多。\n\n[我们以为自己懂了，其实只是听说过](/brain/We%20think%20that%20we%20understand,%20but%20in%20reality%20we%20just%20know.md)\n[卡片盒笔记法](/brain/Zettelkasten.md)",
+            isFile: true,
+        },
+        "Change your environment instead of using willpower.md": {
+            "content": "当科学家分析那些看似具有极强自控力的人时，发现他们与常常自我挣扎的人并没有太大不同。相反，“自律”的人更擅长构建自己的生活环境，使之不需要英雄主义般的意志力与自制力。\n\n正是卢曼与他的卡片盒协同工作的方式，让他能够在不同任务与思维层次之间自由灵活地切换。关键在于拥有恰当的工具并懂得如何使用——很少有人明白你同时需要这两者。\n\n" +
+                "卢曼之所以能够专注于眼前重要的事情，迅速接续中断的工作并掌控整个思考过程，是因为他的工作结构允许他做到这一点。\n\n" +
+                "[卡片盒笔记法](/brain/Zettelkasten.md)",
+            isFile: true,
+        },
+        "Zettelkasten.md": {
+            "content":
+                "卡片盒笔记法（Zettelkasten），卡片索引盒——将信息记录在纸质卡片上，通过主题标引或互相链接建立联系。它常被学者用作研究、学习和写作的高效个人知识管理系统。\n\n" +
+                "社会学家尼克拉斯·卢曼（Niklas Luhmann）将他的卡片盒描述为“有能力的交流伙伴”和“可以与之对话的第二记忆”。\n\n" +
+                "![](img/slipbox.webp)\n\n" +
+                "## 卡片盒笔记法的核心原则\n" +
+                "#### 原子性原则\n" +
+                "每张卡片应该只包含一个想法。这使得以极高精确度建立想法间的链接成为可能。\n\n" +
+                "#### 自治性原则\n" +
+                "每张卡片应该是自足的，即独立阅读就能被理解。这样卡片就可以独立移动、处理、拆分或重组。即使最初的信息来源消失，笔记仍然有用。\n\n" +
+                "#### 始终链接笔记\n" +
+                "每添加一条笔记，务必将其与已有笔记链接起来。避免孤立笔记。正如卢曼所说：“每条笔记都只是系统链接网络中赋予其品质的一个元素。未与网络连接的笔记将会遗失，并被卡片盒遗忘。”\n\n" +
+                "**Files.md** 拥有恰到好处的功能，助你培育自己的 **卡片盒（Zettelkasten）**。🌱\n\n" +
+                "[改变环境而非依赖意志力](/brain/Change%20your%20environment%20instead%20of%20using%20willpower.md)\n" +
+                "[我们以为自己懂了，其实只是听说过](/brain/We%20think%20that%20we%20understand,%20but%20in%20reality%20we%20just%20know.md)\n" +
+                "[关于链接](/Links.md)",
+            isFile: true,
+        },
+    },
+    "happiness/": {
+        "Abundant meditation.md": {
+            "content": "放松下来后，想象自己生活在一个富足丰盈的世界中。\n在这个丰盈的世界里，没有任何限制与约束。\n美好的事物源源不断地从你身边流过。\n想象你曾渴望过的每一件丰足之物——汽车、居所、挚友、爱、喜悦、财富、成就、内心的宁静与挑战。\n想象自己在这种丰盛的环绕中生活。\n\n![](img/tomas_sanchez.jpg)\n\n丰盛可视化的更深层意义，并不在于积累金钱或物质。\n\n真正的丰盛思维，在于认识到：在一个没有虚妄限制的世界中，我们的价值与圆满并非来自外在的拥有。相反，它在于培养一种内在的“足矣”之感，并体认到生命中已经存在的丰美。\n\n// 如果你拥有无拘无束的丰盈，你会做些什么？\n\n// 又是什么在阻止你现在就去做呢？\n\n[无聊只是一种情绪](/happiness/Boredom%20is%20just%20an%20emotion.md)",
+            isFile: true,
+        },
+        "Boredom is just an emotion.md": {
+            "content": "无聊并不意味着你的生活出了什么问题。\n\n在手机与科技出现之前，人们围坐在火堆旁闲聊。我们不会觉得那是无聊，那只是生活本身。\n\n![](img/tomas_sanchez.jpg)\n\n而现在，我们对娱乐有着无休止的渴望。当周围风平浪静时，我们便觉得不正常，迫不及待想要去填补它。\n\n波澜不惊是生活不可或缺的一部分。你可以把它接纳为内心的宁静，也可以狂乱地尝试制造更多混乱。\n\n[丰盛冥想](/happiness/Abundant%20meditation.md)",
+            isFile: true,
+        },
+    },
+    "🪴 Welcome.md": {
+        "content":
+            "要在本地存储文件，请[打开或创建文件夹](cmd:openDir)。\n\n" +
+            "使用[聊天](cmd:openChat)随手记录脑海中的任何想法。\n\n" +
+            "按 `Cmd+K` 或 `Ctrl+K` 快速在文件间切换。\n\n" +
+            "[Markdown 指南](/Markdown%20Guide.md)\n[卡片盒笔记法](/brain/Zettelkasten.md)\n[快捷键列表](/Hotkeys.md)\n[关于链接](/Links.md)",
+        isFile: true,
+    },
+    "Links.md": {
+        "content": "链接至关重要。\n" +
+            "\n" +
+            "想法之间的关联，远比想法本身更加重要。\n" +
+            "学习的本质是建立有意义的连接。\n\n" +
+            "输入 `[` 即可插入新链接。\n\n" +
+            "[Markdown 指南](/Markdown%20Guide.md)\n" +
+            "[卡片盒笔记法](/brain/Zettelkasten.md)",
+        isFile: true,
+    },
+    "Markdown Guide.md": {
+        "content":
+            "使用 `# 标题` 创建标题。\n使用更多 `#` 符号创建更小的子标题：`## 次级标题`。\n" +
+            "\n" +
+            "## 文本格式\n" +
+            "- 使用 `**粗体**` 实现 **粗体** **(Cmd/Ctrl + B)**\n" +
+            "- 使用 `*斜体*` 实现 *斜体* **(Cmd/Ctrl + I)**\n" +
+            "- 使用 `***粗斜体***` 实现 ***粗斜体***\n" +
+            "- 使用 `~~删除线~~` 实现 ~~删除线~~\n" +
+            "- 使用反引号实现 `行内代码`\n" +
+            "\n" +
+            "## 链接\n" +
+            "输入 `[` 即可插入文件链接。\n" +
+            "\n" +
+            "## 列表\n" +
+            "- 第一项\n" +
+            "- 第二项\n" +
+            "  - 第三项\n\n" +
+            "1. 第一项\n" +
+            "2. 第二项\n" +
+            "   1. 第三项\n\n" +
+            "## 任务清单\n" +
+            "- [x] 已完成任务\n" +
+            "- [ ] 未完成任务\n\n" +
+            "语法：\n`- [ ] 任务内容`\n" +
+            "\n" +
+            "## 表格\n" +
+            "| 操作 | 快捷键 |\n" +
+            "| --- | --- |\n" +
+            "| 插入表格 | `Cmd/Ctrl + T` |\n" +
+            "| 插入复选框 | `Cmd/Ctrl + Y` |\n\n" +
+            "## 图片\n" +
+            "![](img/tomas_sanchez.jpg)\n" +
+            "\n" +
+            "*可通过 `Cmd/Ctrl + V` 直接粘贴图片*\n\n" +
+            "## 引用块\n" +
+            "> 这是一个引用块。它可以跨多行，非常适合高亮重点信息或引用外部内容。\n" +
+            "\n语法：\n`> 这是引用块内容`\n" +
+            "\n" +
+            "## 代码块\n" +
+            "```\n" +
+            "这里是代码内容。\n" +
+            "```\n" +
+            "\n" +
+            "## 数学公式\n" +
+            "完整支持 $\\LaTeX$：$e^{i\\pi} + 1 = 0$\n" +
+            "\n" +
+            "[关于链接](/Links.md)\n" +
+            "[我的项目](/My%20Project.md)",
+        isFile: true,
+    },
+    "Hotkeys.md": {
+        "content":
+            "| 快捷键 | 操作说明 |\n" +
+            "| -------- | -------- |\n" +
+            "| `[` | 插入文件链接 |\n" +
+            "| `Cmd+K` / `Ctrl+K` | 打开文件搜索面板 |\n" +
+            "| `Cmd+N` / `Ctrl+N` | 新建文件 |\n" +
+            "| `Cmd+M` / `Ctrl+M` | 移动文件 |\n" +
+            "| `Cmd+D` / `Ctrl+D` | 删除文件 |\n" +
+            "| `Cmd+Enter` / `Ctrl+Enter` | 打开聊天记录 |\n" +
+            "| `Cmd+Shift+Enter` / `Ctrl+Shift+Enter` | 切换聊天弹窗 |\n" +
+            "| `Cmd+[` / `Ctrl+[` | 返回上一个文件 |\n" +
+            "| `Cmd+]` / `Ctrl+]` | 前进到下一个文件 |\n" +
+            "| `Cmd+~` / `Ctrl+~` | 展开/收起侧边栏 |\n" +
+            "| `Cmd+B` / `Ctrl+B` | **粗体** 切换 |\n" +
+            "| `Cmd+I` / `Ctrl+I` | *斜体* 切换 |\n" +
+            "| `Cmd+Y` / `Ctrl+Y` | 插入复选框清单 |\n" +
+            "| `Cmd+T` / `Ctrl+T` | 插入表格 |\n" +
+            "| `Cmd` / `Ctrl` + `点击` | 复制代码块 / 打开链接 |\n" +
+            "| `Ctrl` + `Cmd` + `空格` | 插入表情 Emoji (macOS) |\n" +
+            "\n" +
+            "[Markdown 指南](/Markdown%20Guide.md)",
+        isFile: true,
+    },
+    "My Project.md": {
+        "content":
+            "你可以在这里随手记录与项目相关的想法。\n" +
+            "\n" +
+            "[关于链接](/Links.md)",
+        isFile: true,
+    },
+};
+
+function getWelcomeFiles() {
+    const fn = (typeof getLanguage === 'function') ? getLanguage : (typeof window !== 'undefined' && typeof window.getLanguage === 'function') ? window.getLanguage : null;
+    const lang = fn ? fn() : 'zh';
+    return lang === 'zh' ? WELCOME_FILES_ZH : WELCOME_FILES_EN;
 }
+
+const WELCOME_FILES = new Proxy({}, {
+    get(target, prop) {
+        const current = getWelcomeFiles();
+        return current[prop];
+    },
+    ownKeys() {
+        return Reflect.ownKeys(getWelcomeFiles());
+    },
+    getOwnPropertyDescriptor(target, prop) {
+        return Reflect.getOwnPropertyDescriptor(getWelcomeFiles(), prop);
+    }
+});
 
 function getHelpContent() {
     // Concatenate Hotkeys and Markdown Guide into one Help.md. Drop any
