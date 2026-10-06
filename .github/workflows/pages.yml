@@ -17,8 +17,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy-pages:
-    name: Deploy to GitHub Pages
+  # 始终同步到 gh-pages 分支（无需受环境分支保护规则限制）
+  deploy-gh-pages:
+    name: Deploy to gh-pages branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web
+          keep_files: false
+
+  # 官方 GitHub Actions Pages 部署（若环境设置允许 develop 分支）
+  deploy-actions-pages:
+    name: Deploy via GitHub Actions
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -42,11 +58,3 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         continue-on-error: true
-
-      - name: Deploy to gh-pages branch (fallback)
-        uses: peaceiris/actions-gh-pages@v4
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./web
-          keep_files: false
