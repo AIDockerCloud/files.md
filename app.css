@@ -1069,6 +1069,13 @@ pre.HyperMD-codeblock-end {
     padding-left: 5.0em;
 }
 
+/* Prevent descendant elements (such as KaTeX math widgets, fold stubs, list markers)
+   from inheriting negative text-indent from list lines or quote lines, which shifts their
+   rendered contents backward and causes horizontal overlapping. */
+.cm-s-hypermd-light pre.CodeMirror-line * {
+    text-indent: 0;
+}
+
 
 .cm-formatting-task.cm-property ~ .cm-list-1 {
     text-decoration: line-through;
