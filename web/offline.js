@@ -82,7 +82,7 @@ const urlsToCache = [
 const urlParams = new URLSearchParams(self.location.search);
 const COMMIT_HASH = urlParams.get('v') ? `?v=${urlParams.get('v')}` : '';
 
-const cacheName = `files-md-v${COMMIT_HASH}`;
+const cacheName = `files-md-v2${COMMIT_HASH}`;
 
 // Pre-fetch every file in urlsToCache so the app works offline right after the
 // first visit. Without this, *.js files would be requested before SW is ready,

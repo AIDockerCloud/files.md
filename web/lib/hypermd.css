@@ -3,6 +3,10 @@
     display: inline-block;
     vertical-align: baseline;
     margin: 0 0.15em;
+    text-indent: 0;
+}
+.CodeMirror pre.CodeMirror-line * {
+    text-indent: 0;
 }
 .CodeMirror pre.HyperMD-table-row .cm-hmd-table-sep {
     display: inline-block;
@@ -551,6 +555,7 @@ pre.CodeMirror-line:has(.hmd-fold-code-stub.hmd-fold-code-mermaid) {
     display: inline-block;
     min-width: 0.9em;
     color: #666;
+    text-indent: 0;
 }
 .cm-s-hypermd-light span.cm-formatting-list-ol {
     min-width: 1.5em;
