@@ -1,0 +1,12 @@
+{
+    "schema_version": 2,
+    "commit": "5a21fc26b522c573c5f6708cc84a29229d8efa82",
+    "indexed_at": "2026-10-07T16:00:06Z",
+    "project": "home-inverstar-ai-github.com-AIDockerCloud-files.md",
+    "nodes": 7673,
+    "edges": 30585,
+    "original_size": 25886720,
+    "compressed_size": 5148092,
+    "compression_level": 9,
+    "reconcile_basis": "git-clean-head"
+}
